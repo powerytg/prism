@@ -77,9 +77,6 @@ namespace Prism
             // TODO: Create an appropriate data model for your problem domain to replace the sample data
             var sampleDataGroup = await SampleDataSource.GetGroupAsync("Group-4");
             this.DefaultViewModel[FirstGroupName] = sampleDataGroup;
-
-            // Auth
-            APICore.Instance.GetRequestTokenAsync();
         }
 
         /// <summary>

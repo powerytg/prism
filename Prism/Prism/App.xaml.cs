@@ -1,4 +1,6 @@
-﻿using Prism.Common;
+﻿using Prism.API.Networking;
+using Prism.Common;
+using Prism.UI.Login;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -101,10 +103,13 @@ namespace Prism
                 rootFrame.ContentTransitions = null;
                 rootFrame.Navigated += this.RootFrame_FirstNavigated;
 
-                // When the navigation stack isn't restored navigate to the first page,
-                // configuring the new page by passing required information as a navigation
-                // parameter.
-                if (!rootFrame.Navigate(typeof(PivotPage), e.Arguments))
+                // Check for valid OAuth tokens
+                bool hasTokens = APICore.Instance.RetrieveAcessCredentials();
+                if (!hasTokens)
+                {
+                    rootFrame.Navigate(typeof(LoginPage), e.Arguments);
+                }
+                else if (!rootFrame.Navigate(typeof(PivotPage), e.Arguments))
                 {
                     throw new Exception("Failed to create initial page");
                 }

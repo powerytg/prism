@@ -88,10 +88,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\Login\LoginPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Login\LoginWebPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\Networking\APICore.cs" />
     <Compile Include="API\Networking\APICoreOAuthExtension.cs" />
+    <Compile Include="API\Networking\APICoreStorageExtension.cs" />
     <Compile Include="API\Utils\DateTimeUtils.cs" />
     <Compile Include="API\Utils\HTTPWebRequestExtension.cs" />
     <Compile Include="API\Utils\UrlHelper.cs" />
@@ -110,6 +119,12 @@
       <DependentUpon>PivotPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\Login\LoginPage.xaml.cs">
+      <DependentUpon>LoginPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Login\LoginWebPage.xaml.cs">
+      <DependentUpon>LoginWebPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -139,7 +154,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="API\Storage\" />
-    <Folder Include="UI\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>

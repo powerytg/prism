@@ -20,7 +20,7 @@ namespace Prism.API.Networking
         private string consumerSecret = "pGcF6Kw6q9tqfoSZpkQUIpP0URMPMcVsGqBJe4K6";
 
         // Callback Url
-        private string callbackUrl = "http://primewp.com/auth";
+        public string CallbackUrl = "http://primewp.com/auth";
 
         // OAuth token
         public string RequestToken { get; set; }
@@ -94,13 +94,13 @@ namespace Prism.API.Networking
         }
 
         // Get request token
-        public async void GetRequestTokenAsync()
+        public async Task<bool> GetRequestTokenAsync()
         {
             string timestamp = DateTimeUtils.GetTimestamp();
             string nonce = Guid.NewGuid().ToString().Replace("-", null);
 
             // Encode the request string
-            string paramString = "oauth_callback=" + UrlHelper.Encode(callbackUrl);
+            string paramString = "oauth_callback=" + UrlHelper.Encode(CallbackUrl);
             paramString += "&oauth_consumer_key=" + consumerKey;
             paramString += "&oauth_nonce=" + nonce;
             paramString += "&oauth_signature_method=HMAC-SHA1";
@@ -119,14 +119,77 @@ namespace Prism.API.Networking
                 resp.EnsureSuccessStatusCode();
 
                 var result = await resp.Content.ReadAsStringAsync();
+
+                if (result.Contains("oauth_callback_confirmed=true"))
+                {
+                    // Parse out the request token and secret
+                    string[] parts = result.Split('&');
+                    string tokenString = parts[0];
+                    RequestToken = tokenString.Split('=')[1];
+
+                    string secretString = parts[1];
+                    RequestTokenSecret = secretString.Split('=')[1];
+
+                    // Dispatch event
+                    return true;
+                }
+                else
+                {
+                    Debug.WriteLine(result);
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return false;
+            }
+        }
+
+
+        public async Task<bool> GetAccessTokenAsync()
+        {
+            string timestamp = DateTimeUtils.GetTimestamp();
+            string nonce = Guid.NewGuid().ToString().Replace("-", null);
+
+            // Encode the request string
+            string paramString = "oauth_consumer_key=" + consumerKey;
+            paramString += "&oauth_nonce=" + nonce;
+            paramString += "&oauth_signature_method=HMAC-SHA1";
+            paramString += "&oauth_timestamp=" + timestamp;
+            paramString += "&oauth_token=" + RequestToken;
+            paramString += "&oauth_verifier=" + RequestTokenVerifier;
+            paramString += "&oauth_version=1.0";
+
+            string signature = GenerateSignature("POST", RequestTokenSecret, "https://api.500px.com/v1/oauth/access_token", paramString);
+
+            // Create the http request
+            string requestUrl = "https://api.500px.com/v1/oauth/access_token?" + paramString + "&oauth_signature=" + signature;
+
+            try
+            {
+                HttpClient client = new HttpClient();
+                HttpResponseMessage resp = await client.PostAsync(requestUrl, null);
+                resp.EnsureSuccessStatusCode();
+
+                var result = await resp.Content.ReadAsStringAsync();
+                var parts = result.Split('&');
+
+                AccessToken = parts[0].Split('=')[1];
+                AccessTokenSecret = parts[1].Split('=')[1];
+
                 Debug.WriteLine(result);
+                return true;
 
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
+                return false;
             }
 
         }
+
+
     }
 }
