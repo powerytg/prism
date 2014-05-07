@@ -103,6 +103,7 @@
     <Compile Include="API\Networking\APICore.cs" />
     <Compile Include="API\Networking\APICoreOAuthExtension.cs" />
     <Compile Include="API\Networking\APICoreStorageExtension.cs" />
+    <Compile Include="API\Networking\APICorePhotoExtension.cs" />
     <Compile Include="API\Networking\APICoreUserExtension.cs" />
     <Compile Include="API\Networking\Events\APIEventArgs.cs" />
     <Compile Include="API\Storage\Factories\UserFactory.cs" />
