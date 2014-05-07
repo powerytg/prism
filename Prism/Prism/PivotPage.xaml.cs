@@ -1,4 +1,5 @@
 ﻿using Prism.API.Networking;
+using Prism.API.Storage;
 using Prism.Common;
 using Prism.Data;
 using System;
@@ -12,6 +13,8 @@ using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Display;
+using Windows.UI.Popups;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -26,11 +29,7 @@ namespace Prism
 {
     public sealed partial class PivotPage : Page
     {
-        private const string FirstGroupName = "FirstGroup";
-        private const string SecondGroupName = "SecondGroup";
-
         private readonly NavigationHelper navigationHelper;
-        private readonly ObservableDictionary defaultViewModel = new ObservableDictionary();
         private readonly ResourceLoader resourceLoader = ResourceLoader.GetForCurrentView("Resources");
 
         public PivotPage()
@@ -51,16 +50,7 @@ namespace Prism
         {
             get { return this.navigationHelper; }
         }
-
-        /// <summary>
-        /// Gets the view model for this <see cref="Page"/>.
-        /// This can be changed to a strongly typed view model.
-        /// </summary>
-        public ObservableDictionary DefaultViewModel
-        {
-            get { return this.defaultViewModel; }
-        }
-
+        
         /// <summary>
         /// Populates the page with content passed during navigation. Any saved state is also
         /// provided when recreating a page from a prior session.
@@ -74,9 +64,15 @@ namespace Prism
         /// session. The state will be null the first time a page is visited.</param>
         private async void NavigationHelper_LoadState(object sender, LoadStateEventArgs e)
         {
-            // TODO: Create an appropriate data model for your problem domain to replace the sample data
-            var sampleDataGroup = await SampleDataSource.GetGroupAsync("Group-4");
-            this.DefaultViewModel[FirstGroupName] = sampleDataGroup;
+            // Events
+            APICore.Instance.GetCurrentUserInfoFailed += OnGetCurrentUserInfoFailed;
+            StorageCore.Instance.CurrentUserInfoUpdated += OnGetCurrentUserInfoComplete;
+
+            // Refresh user info
+            StatusBar statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+            await statusBar.ProgressIndicator.ShowAsync();
+
+            APICore.Instance.GetCurrentUserInfoAsync();
         }
 
         /// <summary>
@@ -89,54 +85,6 @@ namespace Prism
         /// serializable state.</param>
         private void NavigationHelper_SaveState(object sender, SaveStateEventArgs e)
         {
-            // TODO: Save the unique state of the page here.
-        }
-
-        /// <summary>
-        /// Adds an item to the list when the app bar button is clicked.
-        /// </summary>
-        private void AddAppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            string groupName = this.pivot.SelectedIndex == 0 ? FirstGroupName : SecondGroupName;
-            var group = this.DefaultViewModel[groupName] as SampleDataGroup;
-            var nextItemId = group.Items.Count + 1;
-            var newItem = new SampleDataItem(
-                string.Format(CultureInfo.InvariantCulture, "Group-{0}-Item-{1}", this.pivot.SelectedIndex + 1, nextItemId),
-                string.Format(CultureInfo.CurrentCulture, this.resourceLoader.GetString("NewItemTitle"), nextItemId),
-                string.Empty,
-                string.Empty,
-                this.resourceLoader.GetString("NewItemDescription"),
-                string.Empty);
-
-            group.Items.Add(newItem);
-
-            // Scroll the new item into view.
-            var container = this.pivot.ContainerFromIndex(this.pivot.SelectedIndex) as ContentControl;
-            var listView = container.ContentTemplateRoot as ListView;
-            listView.ScrollIntoView(newItem, ScrollIntoViewAlignment.Leading);
-        }
-
-        /// <summary>
-        /// Invoked when an item within a section is clicked.
-        /// </summary>
-        private void ItemView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            // Navigate to the appropriate destination page, configuring the new page
-            // by passing required information as a navigation parameter
-            var itemId = ((SampleDataItem)e.ClickedItem).UniqueId;
-            if (!Frame.Navigate(typeof(ItemPage), itemId))
-            {
-                throw new Exception(this.resourceLoader.GetString("NavigationFailedExceptionMessage"));
-            }
-        }
-
-        /// <summary>
-        /// Loads the content for the second pivot item when it is scrolled into view.
-        /// </summary>
-        private async void SecondPivot_Loaded(object sender, RoutedEventArgs e)
-        {
-            var sampleDataGroup = await SampleDataSource.GetGroupAsync("Group-5");
-            this.DefaultViewModel[SecondGroupName] = sampleDataGroup;
         }
 
         #region NavigationHelper registration
@@ -165,5 +113,30 @@ namespace Prism
         }
 
         #endregion
+
+        private async void OnGetCurrentUserInfoComplete(object sender, EventArgs e)
+        {
+            StatusBar statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+            await statusBar.ProgressIndicator.HideAsync();
+        }
+
+        private async void OnGetCurrentUserInfoFailed(object sender, EventArgs e)
+        {
+            StatusBar statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+            await statusBar.ProgressIndicator.HideAsync();
+
+            MessageDialog dialog = new MessageDialog("Cannot verify user info. Please try again");
+            dialog.Commands.Add(new UICommand("Retry", OnRetryGetUserInfo));
+            await dialog.ShowAsync();
+        }
+
+        private async void OnRetryGetUserInfo(IUICommand command)
+        {
+            StatusBar statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+            await statusBar.ProgressIndicator.ShowAsync();
+
+            APICore.Instance.GetCurrentUserInfoAsync();
+        }
+
     }
 }
