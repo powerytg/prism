@@ -8,12 +8,18 @@ namespace Prism.API.Storage.Models
 {
     public class User : ModelBase
     {
+        public static int NoUploadLimit = -1;
+
         public string UserName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string FullName { get; set; }
 
         public string AvatarUrl { get; set; }
+        public string SmallAvatarUrl { get; set; }
+        public string LargeAvatarUrl { get; set; }
+        public string TinyAvatarUrl { get; set; }
+        public string DefaultAvatarUrl { get; set; }
 
         public DateTime RegistrationDate { get; set; }
 
@@ -37,6 +43,19 @@ namespace Prism.API.Storage.Models
 
         public int UploadLimit { get; set; }
         public DateTime UploadLimitExpiration { get; set; }
+
+        public int UpgradeType { get; set; }
         public DateTime UpgradeStatusExpiration { get; set; }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public User()
+            : base()
+        {
+            ContactInfo = new Dictionary<string, string>();
+            Cameras = new List<string>();
+            Lenses = new List<string>();
+        }
     }
 }
