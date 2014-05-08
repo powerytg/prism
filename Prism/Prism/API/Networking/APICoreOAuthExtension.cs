@@ -107,10 +107,10 @@ namespace Prism.API.Networking
             paramString += "&oauth_timestamp=" + timestamp;
             paramString += "&oauth_version=1.0";
 
-            string signature = GenerateSignature("POST", null, "https://api.500px.com/v1/oauth/request_token", paramString);
+            string signature = GenerateSignature("POST", null, BaseUrl + "/oauth/request_token", paramString);
 
             // Create the http request
-            string requestUrl = "https://api.500px.com/v1/oauth/request_token?" + paramString + "&oauth_signature=" + signature;
+            string requestUrl = BaseUrl + "/oauth/request_token?" + paramString + "&oauth_signature=" + signature;
 
             try
             {
@@ -161,10 +161,10 @@ namespace Prism.API.Networking
             paramString += "&oauth_verifier=" + RequestTokenVerifier;
             paramString += "&oauth_version=1.0";
 
-            string signature = GenerateSignature("POST", RequestTokenSecret, "https://api.500px.com/v1/oauth/access_token", paramString);
+            string signature = GenerateSignature("POST", RequestTokenSecret, BaseUrl + "/oauth/access_token", paramString);
 
             // Create the http request
-            string requestUrl = "https://api.500px.com/v1/oauth/access_token?" + paramString + "&oauth_signature=" + signature;
+            string requestUrl = BaseUrl + "/oauth/access_token?" + paramString + "&oauth_signature=" + signature;
 
             try
             {

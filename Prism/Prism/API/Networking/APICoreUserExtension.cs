@@ -25,10 +25,10 @@ namespace Prism.API.Networking
             paramString += "&oauth_token=" + AccessToken;
             paramString += "&oauth_version=1.0";
 
-            string signature = GenerateSignature("GET", AccessTokenSecret, "https://api.500px.com/v1/users", paramString);
+            string signature = GenerateSignature("GET", AccessTokenSecret, BaseUrl + "/users", paramString);
 
             // Create the http request
-            string requestUrl = "https://api.500px.com/v1/users?" + paramString + "&oauth_signature=" + signature;
+            string requestUrl = BaseUrl + "/users?" + paramString + "&oauth_signature=" + signature;
 
             try
             {

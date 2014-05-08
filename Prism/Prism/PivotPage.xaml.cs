@@ -1,7 +1,6 @@
 ﻿using Prism.API.Networking;
 using Prism.API.Storage;
 using Prism.Common;
-using Prism.Data;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -118,6 +117,9 @@ namespace Prism
         {
             StatusBar statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
             await statusBar.ProgressIndicator.HideAsync();
+
+            // Background
+            BackgroundView.ImageUrl = StorageCore.Instance.CurrentUser.AvatarUrl;
 
             // Get user photos
             APICore.Instance.GetUserPhotosAsync(StorageCore.Instance.CurrentUser.Id);

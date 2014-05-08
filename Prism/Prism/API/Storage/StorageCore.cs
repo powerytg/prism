@@ -16,6 +16,7 @@ namespace Prism.API.Storage
 
         #endregion
 
+        public Dictionary<int, string> CategoryTable { get; set; }
         public User CurrentUser { get; set; }
         public Dictionary<string, User> UserCache { get; set; }
         public List<User> UserList { get; set; }
@@ -50,6 +51,10 @@ namespace Prism.API.Storage
         {
             UserCache = new Dictionary<string, User>();
             UserList = new List<User>();
+
+            // Category
+            InitializePhotoCategoryTable();
+            
 
             // Events
             APICore.Instance.GetCurrentUserInfoComplete += OnCurrentUserInfoRetrieved;

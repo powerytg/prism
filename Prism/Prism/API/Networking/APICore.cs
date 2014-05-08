@@ -16,6 +16,8 @@ namespace Prism.API.Networking
 
         #endregion
 
+        private string BaseUrl = "https://api.500px.com/v1";
+
         private static volatile APICore instance;
         private static object syncRoot = new Object();
 
