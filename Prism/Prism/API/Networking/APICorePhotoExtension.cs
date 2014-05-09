@@ -1,4 +1,5 @@
 ﻿using Prism.API.Networking.Events;
+using Prism.API.Storage.Models;
 using Prism.API.Utils;
 using System;
 using System.Collections.Generic;
@@ -12,21 +13,48 @@ namespace Prism.API.Networking
 {
     public partial class APICore
     {
-        public async void GetUserPhotosAsync(string userId)
+        private List<FeatureStream> streamFetchingList = new List<FeatureStream>();
+
+        public async void GetPhotoStreamAsync(FeatureStream stream, int page = 1, int perPage = 20, List<KeyValuePair<string, string>> additionalParams = null)
         {
+            if (streamFetchingList.Contains(stream))
+            {
+                return;
+            }
+
+            streamFetchingList.Add(stream);
+
             string timestamp = DateTimeUtils.GetTimestamp();
             string nonce = Guid.NewGuid().ToString().Replace("-", null);
 
             // Encode the request string
-            string paramString = "feature=user";
-            paramString += "&oauth_consumer_key=" + consumerKey;
-            paramString += "&oauth_nonce=" + nonce;
-            paramString += "&oauth_signature_method=HMAC-SHA1";
-            paramString += "&oauth_timestamp=" + timestamp;
-            paramString += "&oauth_token=" + AccessToken;
-            paramString += "&oauth_version=1.0";
-            paramString += "&user_id=" + userId;
+            List<KeyValuePair<string, string>> plist = new List<KeyValuePair<string, string>>();
+            plist.Add(new KeyValuePair<string, string>("feature", stream.Name));
+            plist.Add(new KeyValuePair<string, string>("oauth_consumer_key", consumerKey));
+            plist.Add(new KeyValuePair<string, string>("oauth_nonce", nonce));
+            plist.Add(new KeyValuePair<string, string>("oauth_signature_method", "HMAC-SHA1"));
+            plist.Add(new KeyValuePair<string, string>("oauth_timestamp", timestamp));
+            plist.Add(new KeyValuePair<string, string>("oauth_token", AccessToken));
+            plist.Add(new KeyValuePair<string, string>("oauth_version", "1.0"));
 
+            if (stream.UserId != null)
+            {
+                plist.Add(new KeyValuePair<string, string>("user_id", stream.UserId));
+            }
+            else if (stream.UserName != null)
+            {
+                plist.Add(new KeyValuePair<string, string>("username", stream.UserName));
+            }
+
+            if (additionalParams != null)
+            {
+                foreach (var entry in additionalParams)
+                {
+                    plist.Add(entry);
+                }
+            }
+
+            string paramString = GenerateParamString(plist);
             string signature = GenerateSignature("GET", AccessTokenSecret, BaseUrl + "/photos", paramString);
 
             // Create the http request
@@ -40,11 +68,21 @@ namespace Prism.API.Networking
 
                 var result = await resp.Content.ReadAsStringAsync();
 
-                Debug.WriteLine(result);
+                // Dispatch event
+                GetPhotoStreamComplete(this, new PhotoStreamEventArgs(stream, result));
             }
             catch (Exception ex)
             {
+                GetCurrentUserInfoFailed(this, new PhotoStreamEventArgs(stream));
                 Debug.WriteLine(ex);
+            }
+            finally
+            {
+                if (streamFetchingList.Contains(stream))
+                {
+                    streamFetchingList.Remove(stream);
+                }
+                
             }
         }
 

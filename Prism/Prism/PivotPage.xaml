@@ -25,12 +25,15 @@
         <!--Background-->
         <common:BlurImageView x:Name="BackgroundView"/>
         
-        <Pivot x:Uid="Pivot" Title="500 Prism" x:Name="pivot" CommonNavigationTransitionInfo.IsStaggerElement="True" Margin="0,12,0,0">
+        <Pivot x:Uid="Pivot" Title="500 Prism" x:Name="pivot" 
+               CommonNavigationTransitionInfo.IsStaggerElement="True" 
+               Margin="0,12,0,0">
             <!--Pivot item one-->
             <PivotItem
                 x:Uid="PivotItem1"
                 Header="first"
-                CommonNavigationTransitionInfo.IsStaggerElement="True">
+                CommonNavigationTransitionInfo.IsStaggerElement="True"
+                Margin="0">
                 
                 <dashboard:PreludeSection x:Name="PreludeView"/>
                 

@@ -62,6 +62,34 @@ namespace Prism.API.Networking
             }
         }
 
+        private string GenerateParamString(List<KeyValuePair<string, string>> parameters)
+        {
+            parameters.Sort(KeyValuePairCompare);
+            if (parameters != null)
+            {
+                parameters.Sort(KeyValuePairCompare);
+
+                List<string> paramList = new List<string>();
+                foreach (KeyValuePair<string, string> pair in parameters)
+                {
+                    string part = pair.Key + "=" + pair.Value;
+                    paramList.Add(part);
+                }
+
+                var paramString = string.Join("&", paramList);
+                return paramString;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        static int KeyValuePairCompare(KeyValuePair<string, string> a, KeyValuePair<string, string> b)
+        {
+            return a.Key.CompareTo(b.Key);
+        }
+
         private string Sha1Encrypt(string baseString, string keyString)
         {
             var crypt = MacAlgorithmProvider.OpenAlgorithm(MacAlgorithmNames.HmacSha1);

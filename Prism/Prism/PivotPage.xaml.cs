@@ -1,5 +1,6 @@
 ﻿using Prism.API.Networking;
 using Prism.API.Storage;
+using Prism.API.Storage.Events;
 using Prism.Common;
 using System;
 using System.Collections.Generic;
@@ -66,6 +67,7 @@ namespace Prism
             // Events
             APICore.Instance.GetCurrentUserInfoFailed += OnGetCurrentUserInfoFailed;
             StorageCore.Instance.CurrentUserInfoUpdated += OnGetCurrentUserInfoComplete;
+            StorageCore.Instance.PhotoStreamUpdated += OnPhotoStreamUpdated;
 
             // Refresh user info
             StatusBar statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
@@ -118,11 +120,9 @@ namespace Prism
             StatusBar statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
             await statusBar.ProgressIndicator.HideAsync();
 
-            // Background
-            BackgroundView.ImageUrl = StorageCore.Instance.CurrentUser.AvatarUrl;
-
             // Get user photos
-            APICore.Instance.GetUserPhotosAsync(StorageCore.Instance.CurrentUser.Id);
+            //APICore.Instance.GetPhotoStreamAsync(StorageCore.Instance.CurrentUser.PhotoStream, 1, 20, APICore.Instance.DefaultPhotoParameters);
+            APICore.Instance.GetPhotoStreamAsync(StorageCore.Instance.PopularStream, 1, 20, APICore.Instance.DefaultPhotoParameters);
         }
 
         private async void OnGetCurrentUserInfoFailed(object sender, EventArgs e)
@@ -141,6 +141,22 @@ namespace Prism
             await statusBar.ProgressIndicator.ShowAsync();
 
             APICore.Instance.GetCurrentUserInfoAsync();
+        }
+
+        private void OnPhotoStreamUpdated(object sender, StoragePhotoStreamEventArgs e)
+        {
+            // Only concern about the first user page
+            /*
+            if (e.Stream != StorageCore.Instance.CurrentUser.PhotoStream || e.Page != 1 || e.NewPhotos.Count == 0)
+            {
+                return;
+            }
+            
+
+            BackgroundView.ImageUrl = StorageCore.Instance.CurrentUser.PhotoStream.Photos[0].MediumImageUrl;
+            */
+
+            BackgroundView.ImageUrl = e.Stream.Photos[0].MediumImageUrl;
         }
 
     }

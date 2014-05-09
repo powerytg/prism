@@ -1,5 +1,4 @@
-﻿using Prism.API.Storage;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,27 +11,33 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace Prism.UI.Dashboard
+namespace Prism.UI.Common.Renderers.PhotoRenderers
 {
-    public sealed partial class PreludeSection : UserControl
+    public sealed partial class CommonPhotoRenderer : PhotoRendererBase
     {
         /// <summary>
         /// Constructor
         /// </summary>
-        public PreludeSection()
+        public CommonPhotoRenderer()
         {
             this.InitializeComponent();
-
-            StorageCore.Instance.CurrentUserInfoUpdated += OnCurrentInfoUpdated;
         }
 
-        private void OnCurrentInfoUpdated(object sender, EventArgs e)
+        protected override void OnPhotoSourceChanged()
         {
-            PhotoListView.Stream = StorageCore.Instance.CurrentUser.PhotoStream;
+            base.OnPhotoSourceChanged();
+
+            if (PhotoSource == null)
+            {
+                return;
+            }
+
+            ImageView.Source = new BitmapImage(new Uri(PhotoSource.LargeImageUrl, UriKind.Absolute));
         }
 
     }

@@ -1,5 +1,4 @@
-﻿using Prism.API.Storage;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,24 +15,26 @@ using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace Prism.UI.Dashboard
+namespace Prism.UI.Common.Renderers.PhotoRenderers
 {
-    public sealed partial class PreludeSection : UserControl
+    public sealed partial class PhotoGroupRenderer1 : PhotoGroupRendererBase
     {
         /// <summary>
         /// Constructor
         /// </summary>
-        public PreludeSection()
+        public PhotoGroupRenderer1()
         {
             this.InitializeComponent();
-
-            StorageCore.Instance.CurrentUserInfoUpdated += OnCurrentInfoUpdated;
         }
 
-        private void OnCurrentInfoUpdated(object sender, EventArgs e)
+        protected override void OnPhotoGroupChanged()
         {
-            PhotoListView.Stream = StorageCore.Instance.CurrentUser.PhotoStream;
-        }
+            base.OnPhotoGroupChanged();
+            Renderer.PhotoSource = PhotoGroupSource.Photos[0];
+            Renderer.StreamContext = PhotoGroupSource.StreamContext;
+            Renderer.UserId = PhotoGroupSource.UserId;
+            Renderer.UserName = PhotoGroupSource.UserName;
 
+        }
     }
 }

@@ -187,6 +187,27 @@ namespace Prism.API.Storage.Factories
 
             }
 
+            // Update userid/username for streams
+            user.PhotoStream.UserId = user.Id;
+
+            if (user.UserName != null)
+            {
+                user.PhotoStream.UserName = user.UserName;
+            }
+
+            user.FriendStream.UserId = user.Id;
+
+            if (user.UserName != null)
+            {
+                user.FriendStream.UserName = user.UserName;
+            }
+
+            user.FavStream.UserId = user.Id;
+
+            if (user.UserName != null)
+            {
+                user.FavStream.UserName = user.UserName;
+            }
         }
 
         public static User UserWithJson(string json)

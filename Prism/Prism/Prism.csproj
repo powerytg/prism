@@ -87,7 +87,32 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Styles\MainPivotStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="UI\Common\Controls\BlurImageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Common\Controls\CommonPhotoStreamView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Common\Renderers\PhotoRenderers\PhotoGroupRenderer1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Common\Renderers\PhotoRenderers\CommonPhotoRenderer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Common\Renderers\PhotoRenderers\PhotoGroupRenderer2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Common\Renderers\PhotoRenderers\PhotoGroupRenderer3.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -111,10 +136,17 @@
     <Compile Include="API\Networking\APICorePhotoExtension.cs" />
     <Compile Include="API\Networking\APICoreUserExtension.cs" />
     <Compile Include="API\Networking\Events\APIEventArgs.cs" />
+    <Compile Include="API\Networking\Events\PhotoStreamEventArgs.cs" />
+    <Compile Include="API\Storage\Events\StoragePhotoStreamEventArgs.cs" />
+    <Compile Include="API\Storage\Factories\PhotoFactory.cs" />
     <Compile Include="API\Storage\Factories\UserFactory.cs" />
+    <Compile Include="API\Storage\Models\FeatureStream.cs" />
     <Compile Include="API\Storage\Models\ModelBase.cs" />
+    <Compile Include="API\Storage\Models\Photo.cs" />
     <Compile Include="API\Storage\Models\User.cs" />
     <Compile Include="API\Storage\StorageCore.cs" />
+    <Compile Include="API\Storage\StorageCoreCategoryExtension.cs" />
+    <Compile Include="API\Storage\StorageCorePhotoStreamExtension.cs" />
     <Compile Include="API\Storage\StorageCoreUserExtension.cs" />
     <Compile Include="API\Utils\DateTimeUtils.cs" />
     <Compile Include="API\Utils\HTTPWebRequestExtension.cs" />
@@ -133,6 +165,26 @@
     <Compile Include="UI\Common\Controls\BlurImageView.xaml.cs">
       <DependentUpon>BlurImageView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Common\Controls\CommonPhotoStreamView.xaml.cs">
+      <DependentUpon>CommonPhotoStreamView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Common\Controls\StreamListViewBase.cs" />
+    <Compile Include="UI\Common\Renderers\PhotoRenderers\CommonPhotoGroupFactory.cs" />
+    <Compile Include="UI\Common\Renderers\PhotoRenderers\CommonPhotoGroupRendererSelector.cs" />
+    <Compile Include="UI\Common\Renderers\PhotoRenderers\PhotoGroupRenderer1.xaml.cs">
+      <DependentUpon>PhotoGroupRenderer1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Common\Renderers\PhotoRenderers\PhotoGroupRenderer2.xaml.cs">
+      <DependentUpon>PhotoGroupRenderer2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Common\Renderers\PhotoRenderers\PhotoGroupRenderer3.xaml.cs">
+      <DependentUpon>PhotoGroupRenderer3.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Common\Renderers\PhotoRenderers\PhotoGroupRendererBase.cs" />
+    <Compile Include="UI\Common\Renderers\PhotoRenderers\CommonPhotoRenderer.xaml.cs">
+      <DependentUpon>CommonPhotoRenderer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Common\Renderers\PhotoRenderers\PhotoRendererBase.cs" />
     <Compile Include="UI\Dashboard\PreludeSection.xaml.cs">
       <DependentUpon>PreludeSection.xaml</DependentUpon>
     </Compile>
@@ -142,6 +194,7 @@
     <Compile Include="UI\Login\LoginWebPage.xaml.cs">
       <DependentUpon>LoginWebPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\Models\PhotoGroup.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -168,9 +221,7 @@
       <SubType>Designer</SubType>
     </PRIResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="API\Storage\Events\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>

@@ -62,11 +62,14 @@ namespace Prism.UI.Common.Controls
 
             stream.Seek(0);
 
-            var blurFilter = new BlurFilter(60);
+            //var blurFilter = new BlurFilter(60);
             using (var source = new RandomAccessStreamImageSource(stream))
-            using (var filterEffect = new FilterEffect(source) { Filters = new[] { blurFilter } })
-            using (var renderer = new WriteableBitmapRenderer(filterEffect, bmp))
+            using (var blurFilter = new LensBlurEffect(source, new LensBlurPredefinedKernel(LensBlurPredefinedKernelShape.Circle, 20)))
+            //using (var filterEffect = new FilterEffect(source) { Filters = new[] { blurFilter } })
+            using (var renderer = new WriteableBitmapRenderer(blurFilter, bmp))
             {
+                
+
                 bmp = await renderer.RenderAsync();
                 bmp.Invalidate(); 
                 BackgroundImage.Source = bmp;

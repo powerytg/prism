@@ -47,6 +47,10 @@ namespace Prism.API.Storage.Models
         public int UpgradeType { get; set; }
         public DateTime UpgradeStatusExpiration { get; set; }
 
+        public FeatureStream PhotoStream { get; set; }
+        public FeatureStream FriendStream { get; set; }
+        public FeatureStream FavStream { get; set; }
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -56,6 +60,10 @@ namespace Prism.API.Storage.Models
             ContactInfo = new Dictionary<string, string>();
             Cameras = new List<string>();
             Lenses = new List<string>();
+
+            PhotoStream = new FeatureStream("user");
+            FriendStream = new FeatureStream("user_friends");
+            FavStream = new FeatureStream("user_favourites");
         }
     }
 }
