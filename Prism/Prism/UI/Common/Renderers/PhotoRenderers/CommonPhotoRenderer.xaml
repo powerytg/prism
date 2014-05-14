@@ -9,7 +9,9 @@
     d:DesignHeight="300"
     d:DesignWidth="400"
     PointerPressed="PhotoRendererBase_PointerPressed"
-    PointerReleased="PhotoRendererBase_PointerReleased">
+    PointerReleased="PhotoRendererBase_PointerReleased"
+    PointerCanceled="PhotoRendererBase_PointerCanceled"
+    PointerCaptureLost="PhotoRendererBase_PointerCaptureLost">
     
     <Grid x:Name="LayoutRoot">
         <Image x:Name="ImageView" Stretch="UniformToFill"/>

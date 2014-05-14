@@ -43,13 +43,23 @@ namespace Prism.UI.Common.Renderers.PhotoRenderers
 
         private void PhotoRendererBase_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            bool result = VisualStateManager.GoToState(this, "Pressed", true);
+            bool result = VisualStateManager.GoToState(this, "Pressed", false);
             Debug.WriteLine(result);
         }
 
         private void PhotoRendererBase_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
-            VisualStateManager.GoToState(this, "Normal", true);
+            VisualStateManager.GoToState(this, "Normal", false);
+        }
+
+        private void PhotoRendererBase_PointerCanceled(object sender, PointerRoutedEventArgs e)
+        {
+            VisualStateManager.GoToState(this, "Normal", false);
+        }
+
+        private void PhotoRendererBase_PointerCaptureLost(object sender, PointerRoutedEventArgs e)
+        {
+            VisualStateManager.GoToState(this, "Normal", false);
         }
 
     }
