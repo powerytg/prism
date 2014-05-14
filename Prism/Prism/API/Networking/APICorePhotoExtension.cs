@@ -13,19 +13,10 @@ namespace Prism.API.Networking
 {
     public partial class APICore
     {
-        private List<FeatureStream> streamFetchingList = new List<FeatureStream>();
-
-        public async void GetPhotoStreamAsync(FeatureStream stream, int page = 1, int perPage = 20, List<KeyValuePair<string, string>> additionalParams = null)
+        public async Task<string> GetPhotoStreamAsync(FeatureStream stream, int page = 1, int perPage = 20, List<KeyValuePair<string, string>> additionalParams = null)
         {
-            if (streamFetchingList.Contains(stream))
-            {
-                return;
-            }
-
-            streamFetchingList.Add(stream);
-
             string timestamp = DateTimeUtils.GetTimestamp();
-            string nonce = Guid.NewGuid().ToString().Replace("-", null);
+            string nonce = GenerateNonce();
 
             // Encode the request string
             List<KeyValuePair<string, string>> plist = new List<KeyValuePair<string, string>>();
@@ -36,6 +27,8 @@ namespace Prism.API.Networking
             plist.Add(new KeyValuePair<string, string>("oauth_timestamp", timestamp));
             plist.Add(new KeyValuePair<string, string>("oauth_token", AccessToken));
             plist.Add(new KeyValuePair<string, string>("oauth_version", "1.0"));
+            plist.Add(new KeyValuePair<string, string>("page", page.ToString()));
+            plist.Add(new KeyValuePair<string, string>("rpp", PerPage.ToString()));
 
             if (stream.UserId != null)
             {
@@ -69,20 +62,19 @@ namespace Prism.API.Networking
                 var result = await resp.Content.ReadAsStringAsync();
 
                 // Dispatch event
-                GetPhotoStreamComplete(this, new PhotoStreamEventArgs(stream, result));
+                if (GetPhotoStreamComplete != null)
+                {
+                    GetPhotoStreamComplete(this, new PhotoStreamEventArgs(stream, result));
+                }
+
+                return result;
             }
             catch (Exception ex)
             {
                 GetCurrentUserInfoFailed(this, new PhotoStreamEventArgs(stream));
                 Debug.WriteLine(ex);
-            }
-            finally
-            {
-                if (streamFetchingList.Contains(stream))
-                {
-                    streamFetchingList.Remove(stream);
-                }
-                
+
+                return null;
             }
         }
 

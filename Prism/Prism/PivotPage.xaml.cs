@@ -119,10 +119,6 @@ namespace Prism
         {
             StatusBar statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
             await statusBar.ProgressIndicator.HideAsync();
-
-            // Get user photos
-            //APICore.Instance.GetPhotoStreamAsync(StorageCore.Instance.CurrentUser.PhotoStream, 1, 20, APICore.Instance.DefaultPhotoParameters);
-            APICore.Instance.GetPhotoStreamAsync(StorageCore.Instance.PopularStream, 1, 20, APICore.Instance.DefaultPhotoParameters);
         }
 
         private async void OnGetCurrentUserInfoFailed(object sender, EventArgs e)

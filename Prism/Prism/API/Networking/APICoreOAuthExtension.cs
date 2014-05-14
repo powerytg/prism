@@ -37,6 +37,11 @@ namespace Prism.API.Networking
         // OAuth access token secret
         public string AccessTokenSecret { get; set; }
 
+        private string GenerateNonce()
+        {
+            return Guid.NewGuid().ToString().Replace("-", null);
+        }
+
         private string GenerateParamString(Dictionary<string, string> parameters)
         {
             string paramString = null;

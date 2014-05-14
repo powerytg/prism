@@ -40,6 +40,23 @@ namespace Prism.API.Storage.Models
         public bool Disliked { get; set; }
         public bool Faved { get; set; }
 
-
+        public string HighResUrl
+        {
+            get
+            {
+                if (LargeImageUrl != null)
+                {
+                    return LargeImageUrl;
+                }
+                else if (MediumImageUrl != null)
+                {
+                    return MediumImageUrl;
+                }
+                else
+                {
+                    return ImageUrl;
+                }
+            }
+        }
     }
 }

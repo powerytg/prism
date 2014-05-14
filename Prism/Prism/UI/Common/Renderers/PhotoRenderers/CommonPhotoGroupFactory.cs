@@ -34,7 +34,7 @@ namespace Prism.UI.Common.Renderers.PhotoRenderers
 
             // Randomly slice the photo into groups
             int min = 1;
-            int max = 4;
+            int max = 3;
             int position = 0;
 
             while (position < photos.Count)

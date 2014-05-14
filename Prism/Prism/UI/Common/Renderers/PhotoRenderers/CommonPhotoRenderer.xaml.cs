@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -37,7 +38,18 @@ namespace Prism.UI.Common.Renderers.PhotoRenderers
                 return;
             }
 
-            ImageView.Source = new BitmapImage(new Uri(PhotoSource.LargeImageUrl, UriKind.Absolute));
+            ImageView.Source = new BitmapImage(new Uri(PhotoSource.HighResUrl, UriKind.Absolute));
+        }
+
+        private void PhotoRendererBase_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            bool result = VisualStateManager.GoToState(this, "Pressed", true);
+            Debug.WriteLine(result);
+        }
+
+        private void PhotoRendererBase_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            VisualStateManager.GoToState(this, "Normal", true);
         }
 
     }

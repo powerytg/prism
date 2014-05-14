@@ -11,12 +11,8 @@
     d:DesignWidth="400">
     
     <Grid>
-        <ListView x:Name="PhotoListView">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                </Style>
-            </ListView.ItemContainerStyle>
+        <ListView x:Name="PhotoListView" DataFetchSize="1" 
+                  ItemContainerStyle="{StaticResource PhotoListViewItemStyle}">            
             
             <ListView.ItemTemplateSelector>
                 <renderers:CommonPhotoGroupRendererSelector>

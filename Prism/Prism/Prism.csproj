@@ -92,6 +92,11 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
+    <Page Include="Styles\PhotoListViewStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="UI\Common\Controls\BlurImageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -139,6 +144,7 @@
     <Compile Include="API\Networking\Events\PhotoStreamEventArgs.cs" />
     <Compile Include="API\Storage\Events\StoragePhotoStreamEventArgs.cs" />
     <Compile Include="API\Storage\Factories\PhotoFactory.cs" />
+    <Compile Include="API\Storage\Factories\StreamFactory.cs" />
     <Compile Include="API\Storage\Factories\UserFactory.cs" />
     <Compile Include="API\Storage\Models\FeatureStream.cs" />
     <Compile Include="API\Storage\Models\ModelBase.cs" />
@@ -195,6 +201,7 @@
       <DependentUpon>LoginWebPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Models\PhotoGroup.cs" />
+    <Compile Include="UI\Models\PhotoGroupCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

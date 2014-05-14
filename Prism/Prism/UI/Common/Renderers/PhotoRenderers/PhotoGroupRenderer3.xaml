@@ -10,8 +10,8 @@
     d:DesignWidth="400">
     
     <Grid x:Name="LayoutRoot">
-        <local:CommonPhotoRenderer x:Name="Renderer1"/>
-        <local:CommonPhotoRenderer x:Name="Renderer2"/>
-        <local:CommonPhotoRenderer x:Name="Renderer3"/>
+        <local:CommonPhotoRenderer x:Name="Renderer1" Margin="1"/>
+        <local:CommonPhotoRenderer x:Name="Renderer2" Margin="1"/>
+        <local:CommonPhotoRenderer x:Name="Renderer3" Margin="1"/>
     </Grid>
 </local:PhotoGroupRendererBase>

@@ -8,6 +8,7 @@
         <ResourceDictionary>
             <!--other resources can be here-->
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/PhotoListViewStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

@@ -32,7 +32,8 @@ namespace Prism.UI.Dashboard
 
         private void OnCurrentInfoUpdated(object sender, EventArgs e)
         {
-            PhotoListView.Stream = StorageCore.Instance.CurrentUser.PhotoStream;
+            //PhotoListView.Stream = StorageCore.Instance.CurrentUser.PhotoStream;
+            PhotoListView.Stream = StorageCore.Instance.PopularStream;
         }
 
     }

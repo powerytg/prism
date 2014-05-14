@@ -80,12 +80,8 @@ namespace Prism.API.Storage
             YesterdayStream = new FeatureStream("fresh_yesterday");
             WeekStream = new FeatureStream("fresh_week");
 
-            // Events
-            // User
+            // User events
             APICore.Instance.GetCurrentUserInfoComplete += OnCurrentUserInfoRetrieved;
-
-            // Photo stream
-            APICore.Instance.GetPhotoStreamComplete += OnPhotoStreamReturned;
         }
 
     }

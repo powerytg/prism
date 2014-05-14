@@ -35,16 +35,26 @@ namespace Prism.UI.Common.Renderers.PhotoRenderers
             Renderer1.UserId = PhotoGroupSource.UserId;
             Renderer1.UserName = PhotoGroupSource.UserName;
 
-            Renderer2.PhotoSource = PhotoGroupSource.Photos[1];
-            Renderer2.StreamContext = PhotoGroupSource.StreamContext;
-            Renderer2.UserId = PhotoGroupSource.UserId;
-            Renderer2.UserName = PhotoGroupSource.UserName;
+            if (PhotoGroupSource.Photos.Count > 1)
+            {
+                Renderer2.PhotoSource = PhotoGroupSource.Photos[1];
+                Renderer2.StreamContext = PhotoGroupSource.StreamContext;
+                Renderer2.UserId = PhotoGroupSource.UserId;
+                Renderer2.UserName = PhotoGroupSource.UserName;
 
-            LayoutHorizontally();
+                LayoutHorizontally();
+            }
+            else
+            {
+                LayoutSingleImage();
+            }
         }
 
         private void LayoutHorizontally()
         {
+            Renderer1.Visibility = Visibility.Visible;
+            Renderer2.Visibility = Visibility.Visible;
+
             LayoutRoot.MaxHeight = 280;
 
             LayoutRoot.RowDefinitions.Clear();
@@ -70,14 +80,14 @@ namespace Prism.UI.Common.Renderers.PhotoRenderers
                 }
             }
 
-            if (ratio < 0.3f)
+            if (ratio < 0.4f)
             {
-                ratio = 0.3f;
+                ratio = 0.4f;
             }
 
-            if (ratio > 0.75f)
+            if (ratio > 0.65f)
             {
-                ratio = 0.75f;
+                ratio = 0.65f;
             }
 
             percent1 = (int)Math.Floor(ratio * 100);
@@ -88,6 +98,19 @@ namespace Prism.UI.Common.Renderers.PhotoRenderers
 
             Renderer1.SetValue(Grid.ColumnProperty, 0);
             Renderer2.SetValue(Grid.ColumnProperty, 1);
+        }
+
+        private void LayoutSingleImage()
+        {
+            Renderer1.Visibility = Visibility.Visible;
+            Renderer2.Visibility = Visibility.Collapsed;
+
+            LayoutRoot.RowDefinitions.Clear();
+            LayoutRoot.ColumnDefinitions.Clear();
+
+            LayoutRoot.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(100, GridUnitType.Star) });
+
+            Renderer1.SetValue(Grid.ColumnProperty, 0);
         }
     }
 }

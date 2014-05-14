@@ -10,6 +10,6 @@
     d:DesignWidth="400">
     
     <Grid>
-        <local:CommonPhotoRenderer x:Name="Renderer"/>
+        <local:CommonPhotoRenderer x:Name="Renderer" Margin="1"/>
     </Grid>
 </local:PhotoGroupRendererBase>

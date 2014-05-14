@@ -1,4 +1,5 @@
-﻿using Prism.API.Storage;
+﻿using Prism.API.Networking;
+using Prism.API.Storage;
 using Prism.API.Storage.Events;
 using Prism.API.Storage.Models;
 using Prism.UI.Common.Renderers.PhotoRenderers;
@@ -25,8 +26,7 @@ namespace Prism.UI.Common.Controls
 {
     public sealed partial class CommonPhotoStreamView : StreamListViewBase
     {
-        private CommonPhotoGroupFactory factory;
-        private ObservableCollection<PhotoGroup> PhotoCollection = new ObservableCollection<PhotoGroup>();
+        private PhotoGroupCollection ds = new PhotoGroupCollection();
 
         /// <summary>
         /// Constructor
@@ -34,47 +34,18 @@ namespace Prism.UI.Common.Controls
         public CommonPhotoStreamView()
         {
             this.InitializeComponent();
-
-            PhotoListView.ItemsSource = PhotoCollection;
-
-            // Events
-            StorageCore.Instance.PhotoStreamUpdated += OnPhotoStreamUpdated;
         }
 
-        private void OnPhotoStreamUpdated(object sender, StoragePhotoStreamEventArgs e)
-        {
-            factory = new CommonPhotoGroupFactory();
-            factory.StreamContext = Stream.Name;
-            factory.UserId = Stream.UserId;
-            factory.UserName = Stream.UserName;
-
-            if (e.NewPhotos.Count > 0)
-            {
-                var groups = factory.GeneratePhotoGroups(e.NewPhotos);
-                foreach (var group in groups)
-                {
-                    PhotoCollection.Add(group);
-                }
-            }
-        }
-
-        protected override void OnStreamChanged()
+        protected async override void OnStreamChanged()
         {
             if (Stream == null)
             {
                 return;
             }
 
-            PhotoCollection.Clear();
-            if (Stream.Photos.Count > 0)
-            {
-                var groups = factory.GeneratePhotoGroups(Stream.Photos);
-                foreach (var group in groups)
-                {
-                    PhotoCollection.Add(group);
-                }
-            }
-
+            PhotoListView.ItemsSource = ds;
+            ds.Stream = Stream;
+            await ds.LoadMoreItemsAsync((uint)APICore.PerPage);
         }
 
     }
