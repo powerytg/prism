@@ -133,6 +133,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\ProCam\ProCamPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\Networking\APICore.cs" />
@@ -202,6 +206,10 @@
     </Compile>
     <Compile Include="UI\Models\PhotoGroup.cs" />
     <Compile Include="UI\Models\PhotoGroupCollection.cs" />
+    <Compile Include="UI\ProCam\ProCamCoreExtension.cs" />
+    <Compile Include="UI\ProCam\ProCamPage.xaml.cs">
+      <DependentUpon>ProCamPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -216,6 +224,7 @@
     <Content Include="Assets\StoreLogo.scale-240.png" />
     <Content Include="Assets\WideLogo.scale-240.png" />
     <Content Include="Common\ReadMe.txt" />
+    <Content Include="StoreManifest.xml" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

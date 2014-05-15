@@ -34,6 +34,10 @@ namespace Prism.UI.Common.Controls
         public CommonPhotoStreamView()
         {
             this.InitializeComponent();
+
+            // Events
+            ds.LoadingStarted = OnLoadingStarted;
+            ds.LoadingComplete = OnLoadingComplete;
         }
 
         protected async override void OnStreamChanged()
@@ -46,6 +50,24 @@ namespace Prism.UI.Common.Controls
             PhotoListView.ItemsSource = ds;
             ds.Stream = Stream;
             await ds.LoadMoreItemsAsync((uint)APICore.PerPage);
+        }
+
+        private void OnLoadingStarted(object sender, EventArgs e)
+        {
+            // Delegate event
+            if (LoadingStarted != null)
+            {
+                LoadingStarted(this, null);
+            }
+        }
+
+        private void OnLoadingComplete(object sender, EventArgs e)
+        {
+            // Delegate event
+            if (LoadingComplete != null)
+            {
+                LoadingComplete(this, null);
+            }
         }
 
     }

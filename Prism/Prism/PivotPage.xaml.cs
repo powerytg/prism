@@ -2,6 +2,7 @@
 using Prism.API.Storage;
 using Prism.API.Storage.Events;
 using Prism.Common;
+using Prism.UI.ProCam;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,10 +10,12 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Display;
+using Windows.Storage.Pickers;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -142,18 +145,33 @@ namespace Prism
         private void OnPhotoStreamUpdated(object sender, StoragePhotoStreamEventArgs e)
         {
             // Only concern about the first user page
-            /*
-            if (e.Stream != StorageCore.Instance.CurrentUser.PhotoStream || e.Page != 1 || e.NewPhotos.Count == 0)
-            {
-                return;
-            }
-            
-
-            BackgroundView.ImageUrl = StorageCore.Instance.CurrentUser.PhotoStream.Photos[0].MediumImageUrl;
-            */
-
             BackgroundView.ImageUrl = e.Stream.Photos[0].MediumImageUrl;
         }
 
+        private void UploadButton_Click(object sender, RoutedEventArgs e)
+        {
+            var openPicker = new FileOpenPicker
+            {
+                ViewMode = PickerViewMode.Thumbnail,
+                SuggestedStartLocation = PickerLocationId.PicturesLibrary
+            };
+            openPicker.FileTypeFilter.Add(".jpg");
+            openPicker.FileTypeFilter.Add(".jpeg");
+            openPicker.FileTypeFilter.Add(".png");
+            openPicker.PickSingleFileAndContinue();
+        }
+
+        public void ContinueFileOpenPicker(FileOpenPickerContinuationEventArgs fileOpenPickerContinuationEventArgs)
+        {
+            if (fileOpenPickerContinuationEventArgs.Files != null)
+            {
+                
+            }
+        }
+
+        private void CameraButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(ProCamPage));
+        }
     }
 }

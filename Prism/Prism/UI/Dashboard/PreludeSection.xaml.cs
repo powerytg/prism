@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -27,7 +28,22 @@ namespace Prism.UI.Dashboard
         {
             this.InitializeComponent();
 
+            // Events
             StorageCore.Instance.CurrentUserInfoUpdated += OnCurrentInfoUpdated;
+            PhotoListView.LoadingStarted += OnLoadingStarted;
+            PhotoListView.LoadingComplete += OnLoadingComplete;
+        }
+
+        private async void OnLoadingStarted(object sender, EventArgs e)
+        {
+            StatusBar statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+            await statusBar.ProgressIndicator.ShowAsync();
+        }
+
+        private async void OnLoadingComplete(object sender, EventArgs e)
+        {
+            StatusBar statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+            await statusBar.ProgressIndicator.HideAsync();
         }
 
         private void OnCurrentInfoUpdated(object sender, EventArgs e)

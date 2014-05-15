@@ -13,6 +13,10 @@ namespace Prism.UI.Common.Controls
 {
     public class StreamListViewBase : UserControl
     {
+        // Events
+        public EventHandler LoadingStarted;
+        public EventHandler LoadingComplete;
+
         public static readonly DependencyProperty StreamProperty = DependencyProperty.Register(
         "Stream",
         typeof(FeatureStream),

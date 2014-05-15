@@ -19,6 +19,10 @@ namespace Prism.UI.Models
 {
     public class PhotoGroupCollection : ObservableCollection<PhotoGroup>, ISupportIncrementalLoading
     {
+        // Events
+        public EventHandler LoadingStarted;
+        public EventHandler LoadingComplete;
+
         private CommonPhotoGroupFactory factory;
         private FeatureStream stream;
         public FeatureStream Stream
@@ -50,14 +54,28 @@ namespace Prism.UI.Models
         {
             int page = Stream.Photos.Count / APICore.PerPage + 1;
 
+            if (LoadingStarted != null)
+            {
+                LoadingStarted(this, null);
+            }
+
             return AsyncInfo.Run(async c =>
             {
-                Debug.WriteLine("page=" + page.ToString());
-
                 var json = await APICore.Instance.GetPhotoStreamAsync(Stream, page, APICore.PerPage, APICore.Instance.DefaultPhotoParameters);
-                var newPhotos = StreamFactory.PhotosWithJson(Stream, json);
+                if (json == null)
+                {
+                    if (LoadingComplete != null)
+                    {
+                        LoadingComplete(this, null);
+                    }
 
-                Debug.WriteLine("photos=" + Stream.Photos.Count.ToString());
+                    return new LoadMoreItemsResult()
+                    {
+                        Count = 0
+                    };
+                }
+
+                var newPhotos = StreamFactory.PhotosWithJson(Stream, json);
 
                 var groups = factory.GeneratePhotoGroups(newPhotos);
                 foreach (var group in groups)
@@ -65,13 +83,16 @@ namespace Prism.UI.Models
                     this.Add(group);
                 }
 
+                if (LoadingComplete != null)
+                {
+                    LoadingComplete(this, null);
+                }
+
                 return new LoadMoreItemsResult() {
                     Count = (uint)newPhotos.Count
                 };
             });
         }
-
-        
 
     }
 }

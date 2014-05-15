@@ -30,6 +30,12 @@ namespace Prism.UI.Common.Renderers.PhotoRenderers
         protected override void OnPhotoGroupChanged()
         {
             base.OnPhotoGroupChanged();
+
+            if (PhotoGroupSource == null)
+            {
+                return;
+            }
+
             Renderer1.PhotoSource = PhotoGroupSource.Photos[0];
             Renderer1.StreamContext = PhotoGroupSource.StreamContext;
             Renderer1.UserId = PhotoGroupSource.UserId;
