@@ -5,6 +5,7 @@
     xmlns:local="using:Prism"
     xmlns:dashboard="using:Prism.UI.Dashboard"
     xmlns:common="using:Prism.UI.Common.Controls"
+    xmlns:procam="using:Prism.UI.ProCam"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:data="using:Prism.Data"
@@ -25,12 +26,14 @@
         <!--Background-->
         <common:BlurImageView x:Name="BackgroundView"/>
         
-        <Pivot x:Uid="Pivot" Title="500px summerlux" x:Name="pivot" 
+        <procam:BlurCameraBackgroundView x:Name="CameraBackgroundView" Visibility="Collapsed"/>
+        
+        <Pivot Title="lumixury" x:Name="MainPivot" 
                CommonNavigationTransitionInfo.IsStaggerElement="True" 
-               Margin="0,12,0,0">
+               Margin="0,12,0,0"
+               SelectionChanged="pivot_SelectionChanged">
             <!--Pivot item one-->
             <PivotItem
-                x:Uid="PivotItem1"
                 Header="stream"
                 CommonNavigationTransitionInfo.IsStaggerElement="True"
                 Margin="0">
@@ -41,8 +44,15 @@
 
             <!--Pivot item two-->
             <PivotItem
-                x:Uid="PivotItem2"
-                Header="second">
+                Header="camera">
+                
+                <dashboard:UploadSection x:Name="UploadView"/>
+
+            </PivotItem>
+
+            <!--User-->
+            <PivotItem
+                Header="user">
                 <ListView
                     IsItemClickEnabled="True"
                     ContinuumNavigationTransitionInfo.ExitElementContainer="True"

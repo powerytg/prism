@@ -1,0 +1,46 @@
+﻿<Page
+    x:Class="Prism.UI.Dashboard.UploadSection"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Prism.UI.Dashboard"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <StackPanel Orientation="Vertical"
+                    VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Button BorderThickness="0">
+                <Button.Content>
+                    <Grid>
+                        <Ellipse Width="200" Height="200" Stroke="#99ffffff"
+                 Fill="#22000000"/>
+
+                        <Image Source="/Assets/CameraBig.png" Width="100" Height="100"
+               Opacity="0.9"/>
+
+                    </Grid>
+                </Button.Content>
+            </Button>
+
+            <TextBlock Text="Snap It" Foreground="White" Opacity="0.8"
+                   Margin="12" HorizontalAlignment="Center"/>
+
+
+            <Button Margin="40" HorizontalAlignment="Center" BorderThickness="0">
+                <Button.Content>
+                    <Grid>
+                        <Ellipse Width="60" Height="60" Stroke="#99ffffff"
+                 Fill="#22000000"/>
+
+                        <Image Source="/Assets/UploadBig.png" Width="35" Height="35"
+               Opacity="0.9"/>
+
+                    </Grid>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+        
+    </Grid>
+</Page>

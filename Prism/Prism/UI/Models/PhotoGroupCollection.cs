@@ -35,6 +35,9 @@ namespace Prism.UI.Models
             set
             {
                 stream = value;
+                this.Clear();
+
+                // Create a photo group factory
                 factory = new CommonPhotoGroupFactory();
                 factory.StreamContext = Stream.Name;
                 factory.UserId = Stream.UserId;

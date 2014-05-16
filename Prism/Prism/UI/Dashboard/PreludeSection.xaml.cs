@@ -1,4 +1,5 @@
 ﻿using Prism.API.Storage;
+using Prism.API.Storage.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -50,6 +51,36 @@ namespace Prism.UI.Dashboard
         {
             //PhotoListView.Stream = StorageCore.Instance.CurrentUser.PhotoStream;
             PhotoListView.Stream = StorageCore.Instance.PopularStream;
+        }
+
+        private void SelectStream(FeatureStream stream)
+        {
+            PhotoListView.Stream = stream;
+        }
+
+        private void PopularMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            SelectStream(StorageCore.Instance.PopularStream);
+        }
+
+        private void EditorChoiceMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            SelectStream(StorageCore.Instance.EditorChoiceStream);
+        }
+
+        private void TodayMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            SelectStream(StorageCore.Instance.TodayStream);
+        }
+
+        private void WeekMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            SelectStream(StorageCore.Instance.PopularStream);
+        }
+
+        private void UserMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            SelectStream(StorageCore.Instance.CurrentUser.PhotoStream);
         }
 
     }

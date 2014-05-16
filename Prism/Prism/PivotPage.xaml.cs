@@ -186,5 +186,27 @@ namespace Prism
                 this.Frame.BackStack.RemoveAt(0);
             }
         }
+
+        private async void pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (MainPivot.SelectedIndex == 1)
+            {
+                CameraBackgroundView.Visibility = Visibility.Visible;
+
+                if (!CameraBackgroundView.Initialized)
+                {
+                    await CameraBackgroundView.InitializeAsync();
+                }
+                else
+                {
+                    await CameraBackgroundView.ResumePreviewAsync();
+                }
+            }
+            else
+            {
+                CameraBackgroundView.Visibility = Visibility.Collapsed;
+                await CameraBackgroundView.PausePreviewAsync();
+            }
+        }
     }
 }

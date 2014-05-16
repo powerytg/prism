@@ -11,6 +11,26 @@
     d:DesignWidth="400">
     
     <Grid>
-        <common:CommonPhotoStreamView x:Name="PhotoListView"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <Button x:Name="SelectStreamButton" Content="Change Stream >"
+                BorderThickness="0">
+            <Button.Flyout>
+                <MenuFlyout>
+                    <MenuFlyoutItem x:Name="PopularMenuItem" Text="popular" Click="PopularMenuItem_Click"/>
+                    <MenuFlyoutItem x:Name="EditorChoiceMenuItem" Text="editor's choice" Click="EditorChoiceMenuItem_Click" />
+                    <MenuFlyoutItem x:Name="TodayMenuItem" Text="trending today" Click="TodayMenuItem_Click" />
+                    <MenuFlyoutItem x:Name="WeekMenuItem" Text="trending this week" Click="WeekMenuItem_Click" />
+                    <MenuFlyoutSeparator />
+                    <MenuFlyoutItem x:Name="UserMenuItem" Text="my stream" Click="UserMenuItem_Click" />
+                </MenuFlyout>
+            </Button.Flyout>
+        </Button>
+        
+        <common:CommonPhotoStreamView x:Name="PhotoListView"
+                                      Grid.Row="1"/>
     </Grid>
 </UserControl>
