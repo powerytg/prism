@@ -125,11 +125,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Dashboard\StreamSelectorFlyout.xaml">
+    <Page Include="UI\Dashboard\UploadSection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Dashboard\UploadSection.xaml">
+    <Page Include="UI\Dashboard\UserSection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -210,11 +210,11 @@
     <Compile Include="UI\Dashboard\PreludeSection.xaml.cs">
       <DependentUpon>PreludeSection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Dashboard\StreamSelectorFlyout.xaml.cs">
-      <DependentUpon>StreamSelectorFlyout.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UI\Dashboard\UploadSection.xaml.cs">
       <DependentUpon>UploadSection.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dashboard\UserSection.xaml.cs">
+      <DependentUpon>UserSection.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Events\StreamChangedEventArgs.cs" />
     <Compile Include="UI\Login\LoginPage.xaml.cs">
