@@ -2,6 +2,7 @@
 using Prism.API.Storage;
 using Prism.API.Storage.Events;
 using Prism.Common;
+using Prism.UI.Login;
 using Prism.UI.ProCam;
 using System;
 using System.Collections.Generic;
@@ -172,6 +173,18 @@ namespace Prism
         private void CameraButton_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(ProCamPage));
+        }
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            APICore.Instance.ClearAcessCredentials();
+
+            // Go back to login page
+            this.Frame.Navigate(typeof(LoginPage));
+            if (this.Frame.CanGoBack)
+            {
+                this.Frame.BackStack.RemoveAt(0);
+            }
         }
     }
 }

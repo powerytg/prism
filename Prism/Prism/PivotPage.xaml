@@ -25,13 +25,13 @@
         <!--Background-->
         <common:BlurImageView x:Name="BackgroundView"/>
         
-        <Pivot x:Uid="Pivot" Title="500 Prism" x:Name="pivot" 
+        <Pivot x:Uid="Pivot" Title="500px summerlux" x:Name="pivot" 
                CommonNavigationTransitionInfo.IsStaggerElement="True" 
                Margin="0,12,0,0">
             <!--Pivot item one-->
             <PivotItem
                 x:Uid="PivotItem1"
-                Header="first"
+                Header="stream"
                 CommonNavigationTransitionInfo.IsStaggerElement="True"
                 Margin="0">
                 
@@ -61,6 +61,7 @@
             <CommandBar.SecondaryCommands>
                 <AppBarButton x:Uid="UploadButton" x:Name="UploadButton" Label="upload" Click="UploadButton_Click" />
                 <AppBarButton x:Uid="CameraButton" x:Name="CameraButton" Label="take picture with camera" Click="CameraButton_Click" />
+                <AppBarButton x:Uid="LogoutButton" x:Name="LogoutButton" Label="sign out" Click="LogoutButton_Click"/>
             </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>

@@ -81,5 +81,12 @@ namespace Prism.API.Networking
 
             return result;
         }
+
+        public void ClearAcessCredentials()
+        {
+            var settings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            settings.DeleteContainer(containerKey);
+        }
+
     }
 }
