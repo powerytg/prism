@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Media.Capture;
+using Windows.Media.Devices;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -33,13 +34,19 @@ namespace Prism.UI.ProCam
 
         public async Task InitializeAsync()
         {
+            // Discover all the cameras
+            await EnumerateCamerasAsync();
+            
             // Create a camera preview image source (from Imaging SDK)
             cameraPreviewImageSource = new CameraPreviewImageSource();
-            await cameraPreviewImageSource.InitializeAsync(string.Empty);
+            await cameraPreviewImageSource.InitializeAsync(backCamera.Id);
             var properties = await cameraPreviewImageSource.StartPreviewAsync();
 
+            //VideoDeviceController controller = (VideoDeviceController)cameraPreviewImageSource.VideoDeviceController;
+            //controller.ZoomControl.Value = controller.ZoomControl.Min;
+
             // Create a preview bitmap with the correct aspect ratio
-            var width = 640.0;
+            var width = 640;
             var height = (width / properties.Width) * properties.Height;
             var bitmap = new WriteableBitmap((int)width, (int)height);
 

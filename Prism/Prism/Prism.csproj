@@ -228,6 +228,7 @@
     <Compile Include="UI\ProCam\BlurCameraBackgroundView.xaml.cs">
       <DependentUpon>BlurCameraBackgroundView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\ProCam\BlurCameraDeviceExtension.cs" />
     <Compile Include="UI\ProCam\ProCamCoreExtension.cs" />
     <Compile Include="UI\ProCam\ProCamPage.xaml.cs">
       <DependentUpon>ProCamPage.xaml</DependentUpon>
