@@ -145,6 +145,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UI\ProCam\CameraBackgroundView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\ProCam\ProCamPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -228,7 +232,11 @@
     <Compile Include="UI\ProCam\BlurCameraBackgroundView.xaml.cs">
       <DependentUpon>BlurCameraBackgroundView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\ProCam\CameraBackgroundDeviceExtension.cs" />
     <Compile Include="UI\ProCam\BlurCameraDeviceExtension.cs" />
+    <Compile Include="UI\ProCam\CameraBackgroundView.xaml.cs">
+      <DependentUpon>CameraBackgroundView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\ProCam\ProCamCoreExtension.cs" />
     <Compile Include="UI\ProCam\ProCamPage.xaml.cs">
       <DependentUpon>ProCamPage.xaml</DependentUpon>

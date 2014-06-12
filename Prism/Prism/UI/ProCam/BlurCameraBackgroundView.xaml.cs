@@ -42,12 +42,11 @@ namespace Prism.UI.ProCam
             await cameraPreviewImageSource.InitializeAsync(backCamera.Id);
             var properties = await cameraPreviewImageSource.StartPreviewAsync();
 
-            //VideoDeviceController controller = (VideoDeviceController)cameraPreviewImageSource.VideoDeviceController;
-            //controller.ZoomControl.Value = controller.ZoomControl.Min;
+            VideoDeviceController controller = (VideoDeviceController)cameraPreviewImageSource.VideoDeviceController;            
 
             // Create a preview bitmap with the correct aspect ratio
-            var width = 640;
-            var height = (width / properties.Width) * properties.Height;
+            var width = properties.Width;
+            var height = properties.Height;
             var bitmap = new WriteableBitmap((int)width, (int)height);
 
             outputBitmap = bitmap;

@@ -26,7 +26,7 @@
         <!--Background-->
         <common:BlurImageView x:Name="BackgroundView"/>
         
-        <procam:BlurCameraBackgroundView x:Name="CameraBackgroundView" Visibility="Collapsed"/>
+        <procam:CameraBackgroundView x:Name="CameraBackgroundView" Visibility="Collapsed"/>
         
         <Pivot Title="lumixury" x:Name="MainPivot" 
                CommonNavigationTransitionInfo.IsStaggerElement="True" 
